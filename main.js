@@ -1,23 +1,37 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import { setupCounter } from './counter.js'
+import axios from "./src/api/axios.js";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const onClick = () => {
+    const params = {
+        "take": 10,
+        "sort":[
+            // {
+            //     "dir":"desc",
+            //     "field":"pswdUpdDt"
+            // }
+        ],
+        "filter":[
+            // {
+            //     "field":"fcltsGrpId",
+            //     "value":"2",
+            //     "operator":"eq"
+            // }
+        ]
 
-setupCounter(document.querySelector('#counter'))
+    }
+
+    axios.post("/insps", params)
+        .then(res => {
+            console.log(res)
+        });
+
+}
+
+
+
+//========== DOM ============
+const sendBtn = document.createElement("button");
+sendBtn.textContent = "전송";
+sendBtn.addEventListener("click", () => {
+    onClick();
+})
+document.querySelector("#app").append(sendBtn)
