@@ -1,37 +1,40 @@
 import axios from "./src/api/axios.js";
-
-const onClick = () => {
-    const params = {
-        "take": 10,
-        "sort":[
-            // {
-            //     "dir":"desc",
-            //     "field":"pswdUpdDt"
-            // }
-        ],
-        "filter":[
-            // {
-            //     "field":"fcltsGrpId",
-            //     "value":"2",
-            //     "operator":"eq"
-            // }
-        ]
-
-    }
-
-    axios.post("/insps", params)
-        .then(res => {
-            console.log(res)
-        });
-
-}
-
-
+import './style.css'
+// import {search, insert} from "@/test/insp/insp";
+// import {search} from "@/test/vmsDsplLog/vmsDsplLog"
+import createDom from "@/js/CreateDom.js";
 
 //========== DOM ============
 const sendBtn = document.createElement("button");
 sendBtn.textContent = "전송";
-sendBtn.addEventListener("click", () => {
-    onClick();
+sendBtn.addEventListener("click", async () => {
+    // insert();
+
+    //vms 표출 이력 테스트
+    // const imgs = await vmsDsplLogTest();
+    // imgs.forEach(img => document.querySelector("#app").append(img));
+
+    //
 })
-document.querySelector("#app").append(sendBtn)
+
+document.querySelector("#app").append(sendBtn);
+
+
+//======vmsDsplLogTest
+
+async function vmsDsplLogTest() {
+    const res = await search();
+    const data = res?.data;
+    const items = data?.items
+    console.log(items);
+
+    const imgList = [];
+    items.forEach((item) => {
+        const img = createDom("img", {
+            "src" : 'data:image/png;base64,' + item.dsplImgStr
+        })
+        imgList.push(img);
+    })
+
+    return imgList;
+}
