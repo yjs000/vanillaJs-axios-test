@@ -22,25 +22,43 @@ const search = async () => {
     return await axios.post("/vmsLogs", params);
 }
 
-// const insert = () => {
-//     const params = {
-//         "inspDiv" : "01",
-//         "inspNm" : "test",
-//         "fcltsDiv": "VD",
-//         "strtYmd" : "20230623",
-//         "endYmd" : "20230623",
-//         "repeatCycleCd": "D",
-//         // "inspPic" : "담당자이름",
-//     }
-//
-//     axios.post("/insp/insert", params)
-//         .then(res => {
-//             console.log(res?.data)
-//         });
-//
-// }
+const excelDownload = async () => {
+    const params = {
+        "fileName" : "testtest",
+        "searchDTO" : {
+            "take": 10,
+            "sort":[
+                // {
+                //     "dir":"desc",
+                //     "field":"dsplDt"
+                // }
+            ],
+            "filter":[
+                // {
+                //     "field":"vmsId",
+                //     "value":"2020",
+                //     "operator":"eq"
+                // }
+            ]
+        },
+        "columns" : [
+            {"field" : "dsplSqno", "fieldKorNm" : "시퀀스"},
+            {"field" : "vmsId", "fieldKorNm" : "브이엠에스"},
+            {"field" : "clctDt", "fieldKorNm" : "콜렉트"},
+            {"field" : "scnrId", "fieldKorNm" : "scnrIdkor"},
+            {"field" : "dsplTime", "fieldKorNm" : "dsplTimekor"},
+            {"field" : "dsplType", "fieldKorNm" : "dsplTypekor"},
+            {"field" : "dsplImgStr", "fieldKorNm" : "dsplImgkor"},
+            {"field" : "dsplDt", "fieldKorNm" : "dsplDkort"}
+        ]
+    }
+
+    return await axios.post("/vmsLogs/excel", params, {responseType: 'blob'});
+
+}
 
 export {
     search,
+    excelDownload,
     // insert
 }
